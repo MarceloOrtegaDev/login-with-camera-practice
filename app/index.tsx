@@ -43,7 +43,7 @@ const onSubmit = (data: FormValues) => {
 
 
   return (
-    <View className="flex-1 bg-red-400 mt-8 p-4 justify-center items-center">
+    <View className="flex-1 mt-8 justify-center items-center">
       <Text className="text-xl font-bold mb-4">Login</Text>
 
       {!showCamera ? (
@@ -96,7 +96,7 @@ const onSubmit = (data: FormValues) => {
             className="bg-green-600 px-4 py-2 rounded mt-4"
             onPress={() => setShowCamera(true)}
           >
-            <Text className="text-white">Identificarme con la cámara</Text>
+            <Text className="text-white">Login con detección facial</Text>
           </TouchableOpacity>
         </>
       ) : (

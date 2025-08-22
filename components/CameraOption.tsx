@@ -1,7 +1,8 @@
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 interface CameraOptionProps {
   onBack: () => void; // función que se ejecuta al volver
@@ -20,8 +21,14 @@ export default function CameraOption({ onBack }: CameraOptionProps) {
     return (
       <View style={styles.container}>
         <Text style={styles.message}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="Grant Permission" />
-        <Button onPress={onBack} title="Volver al login" color="orange" />
+        <TouchableOpacity style={styles.button} onPress={requestPermission}>
+          <MaterialIcons name="camera-alt" size={24} color="white" />
+          <Text style={styles.text}>Permitir cámara</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, { backgroundColor: 'orange', marginTop: 10 }]} onPress={onBack}>
+          <MaterialIcons name="arrow-back" size={24} color="white" />
+          <Text style={styles.text}>Volver al login</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -40,17 +47,20 @@ export default function CameraOption({ onBack }: CameraOptionProps) {
       <CameraView style={styles.camera} facing={facing}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
+            <MaterialIcons name="flip-camera-ios" size={24} color="white" />
+            <Text style={styles.text}>Voltear</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, { backgroundColor: 'orange', marginLeft: 10 }]} onPress={onBack}>
-            <Text style={styles.text}>Volver al login</Text>
+            <MaterialIcons name="arrow-back" size={24} color="white" />
+            <Text style={styles.text}>Volver</Text>
           </TouchableOpacity>
         </View>
       </CameraView>
 
       {/* Botón simulado de scan */}
-      <TouchableOpacity style={styles.scanButton} onPress={handleScan}>
-        <Text style={styles.text}>Scanear y entrar al Home</Text>
+      <TouchableOpacity style={[styles.button, styles.scanButton]} onPress={handleScan}>
+        <MaterialIcons name="face" size={24} color="white" />
+        <Text style={styles.text}>Scanear</Text>
       </TouchableOpacity>
     </View>
   );
@@ -63,37 +73,38 @@ const styles = StyleSheet.create({
   },
   message: {
     textAlign: 'center',
-    paddingBottom: 100,
+    paddingBottom: 20,
+    fontSize: 18,
   },
   camera: {
     flex: 1,
-    width: 400,
+    width: 600,
     height: 'auto',
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
+    gap: 10,
     backgroundColor: 'transparent',
     margin: 64,
+    justifyContent: 'center',
   },
   button: {
-    flex: 1,
-    alignSelf: 'flex-end',
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: 10,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 20,
+    backgroundColor: 'red',
   },
   text: {
     fontSize: 18,
     fontWeight: 'bold',
     color: 'white',
+    marginLeft: 8,
   },
   scanButton: {
-    marginTop: 2,
-    marginBottom: 30,
-    padding: 15,
+    position: 'relative',
+    top: -39,
     backgroundColor: 'green',
-    borderRadius: 8,
-    alignItems: 'center',
   },
 });
