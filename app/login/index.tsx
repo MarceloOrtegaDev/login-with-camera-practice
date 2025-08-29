@@ -8,7 +8,7 @@ interface FormValues {
   cuil: string;
 }
 
-export default function Register() {
+export default function Login() {
   const { control, handleSubmit } = useForm<FormValues>();
   const [photo, setPhoto] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
