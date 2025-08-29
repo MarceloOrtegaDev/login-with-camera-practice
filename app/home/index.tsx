@@ -1,12 +1,16 @@
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { loginFuncion } from "@/hooks/loginService";
 
 export default function Inicio() {
   const router = useRouter();
+  const {User} = loginFuncion()
+  console.log("Nombre de usuario", User);
+
   return (
     <View className="flex-1 justify-center items-center bg-white">
-      <Text className="text-xl mb-4">Bienvenido al home</Text>
+      <Text className="text-xl mb-4 font-bold">Bienvenido al home</Text>
       
       <Image
         source={{
@@ -14,6 +18,7 @@ export default function Inicio() {
         }}
         style={{ width: 200, height: 200, borderRadius: 16 }}
       />
+      <Text className="font-bold  mt-2 text-2xl">Tu cuil es {User}</Text>
       <TouchableOpacity onPress={() => router.push("/")} className="mt-4 bg-white border-2 px-4 py-2 rounded">
         <Text className="font-bold">Cerrar sessión
         </Text>

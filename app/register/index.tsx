@@ -91,9 +91,11 @@ export default function Register() {
         )}
       />
 
+    <View className="flex-row items-center gap-2">
+
       {/* Botón seleccionar foto */}
       <TouchableOpacity
-        className="bg-green-600 px-4 py-2 rounded mb-3"
+        className="bg-green-600 px-4 py-2 rounded"
         onPress={pickImage}
         >
         <Text className="text-white">Seleccionar Foto</Text>
@@ -111,6 +113,7 @@ export default function Register() {
       </TouchableOpacity>
 
       {error && <Text className="text-red-500 mt-2">{error}</Text>}
+            </View>
     </View>
     </View>
   );
