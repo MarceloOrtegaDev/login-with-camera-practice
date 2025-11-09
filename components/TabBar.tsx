@@ -16,29 +16,13 @@ export default function TabBar() {
         onPress={() => router.push("/home")}
         />
         <Button
-          text="Productos"
+          text="Mis productos"
           textSize="text-xl"
           colorBg="bg-teal-400"
           colorText="text-white"
           font="font-bold"
           onPress={() => router.push("/productos")}
           />
-      <Button
-        text="prox.."
-        textSize="text-xl"
-        colorBg="bg-teal-400"
-        colorText="text-white"
-        font="font-bold"
-        onPress={() => console.log("...")}
-        />
-      <Button
-        text="prox.."
-        textSize="text-xl"
-        colorBg="bg-teal-400"
-        colorText="text-white"
-        font="font-bold"
-        onPress={() => console.log("...")}
-        />
     </View>
   );
 }

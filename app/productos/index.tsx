@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { Alert, FlatList, Text, TextInput, View, ActivityIndicator } from "react-native";
-import { CameraView, useCameraPermissions } from "expo-camera";
 import Button from "@/components/Button";
 import TabBar from "@/components/TabBar";
+import { Ionicons } from "@expo/vector-icons";
+import { CameraView, useCameraPermissions } from "expo-camera";
+import { useState } from "react";
+import { ActivityIndicator, Alert, FlatList, Text, TextInput, View } from "react-native";
 
 interface Producto {
   id: string;
@@ -76,29 +77,65 @@ export default function Index() {
           </View>
         )}
 
-        {scanLoading && (
-          <View className="absolute inset-0 justify-center items-center bg-black bg-opacity-30 z-50">
-            <ActivityIndicator size="large" color="#00f" />
-            <Text className="text-white mt-2">Escaneando...</Text>
-          </View>
-        )}
-
         {scanning ? (
-          <CameraView
-            style={{ flex: 1 }}
-            facing="back"
-            onBarcodeScanned={({ data }) => {
-              setScanLoading(true);
-              setTimeout(() => {
-                setCodigoActual(data);
-                setScanLoading(false);
-                setScanning(false);
-              }, 800);
-            }}
-            barcodeScannerSettings={{
-              barcodeTypes: ["qr", "ean13", "code128"],
-            }}
-          />
+          <View className="flex-1 relative">
+            <CameraView
+              style={{ flex: 1 }}
+              facing="back"
+              onBarcodeScanned={({ data }) => {
+                setScanLoading(true);
+                setTimeout(() => {
+                  setCodigoActual(data);
+                  setScanLoading(false);
+                  setScanning(false);
+                }, 800);
+              }}
+              barcodeScannerSettings={{
+                barcodeTypes: ["qr", "ean13", "code128", "code39", "code93", "ean8", "upc_a", "upc_e"],
+              }}
+            />
+                  
+            <View className="absolute inset-0 justify-center items-center" pointerEvents="none">
+              <View className="w-64 h-64 border-4 border-white rounded-lg opacity-70">
+                <View className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-green-400" />
+                <View className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-green-400" />
+                <View className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-green-400" />
+                <View className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-green-400" />
+              </View>
+            </View>
+
+            {!scanLoading && (
+              <View className="absolute top-8 left-0 right-0 items-center" pointerEvents="none">
+                <View className="bg-black bg-opacity-70 px-4 py-2 rounded-lg">
+                  <Text className="text-white text-center font-bold">
+                    Apunta la cámara hacia el código de barras
+                  </Text>
+                </View>
+              </View>
+            )}
+
+            {scanLoading && (
+              <View className="absolute inset-0 justify-center items-center bg-black bg-opacity-60" pointerEvents="none">
+                <View className="bg-black bg-opacity-90 p-6 rounded-lg items-center">
+                  <ActivityIndicator size="large" color="#00ff00" />
+                  <Text className="text-green-400 text-lg font-bold mt-4">Escaneando código...</Text>
+                </View>
+              </View>
+            )}
+
+            <View className="absolute bottom-8 left-0 right-0 items-center">
+              <Button 
+                text="Cancelar escaneo" 
+                colorBg="bg-red-300" 
+                colorText="text-white"
+                font="font-bold"
+                onPress={() => {
+                  setScanning(false);
+                  setScanLoading(false);
+                }}
+              />
+            </View>
+          </View>
         ) : (
           <>
             {codigoActual && (
@@ -148,19 +185,18 @@ export default function Index() {
                 <View className="flex-r justify-between bg-white p-3 mb-2 gap-1 rounded">
                 <View className="gap-4 p-2">
                     <Text className="font-bold text-xl">{item.nombre}</Text>
-                    <Text className="text-lg">Código: {item.id}</Text>
-                    {item.precio && <Text>${item.precio}</Text>}
+                    {item.precio && <Text>Precio: ${item.precio}</Text>}
                 </View>
-                <View className="flex-row gap-2">
+                <View className="flex-row gap-2 justify-end">
                     <Button
                     colorBg="bg-yellow-300"
                     colorText="text-black"
                     font="font-bold"
-                    text="Editar"
+                    text="Modificar"
                     onPress={() => {
-                        setEditando(item);
-                        setNombre(item.nombre);
-                        setPrecio(item.precio || "");
+                      setEditando(item);
+                      setNombre(item.nombre);
+                      setPrecio(item.precio || "");
                     }}
                     />
                     <Button
@@ -171,6 +207,9 @@ export default function Index() {
                     onPress={() => handleDelete(item.id)}
                     />
                 </View>
+                  <View className="mt-4 items-end">
+                      <Text className="text-xs font-bold">Código de producto: {item.id}</Text>
+                  </View>
                 </View>
             )}
             />
@@ -180,8 +219,9 @@ export default function Index() {
         )}
       </View>
         {!codigoActual && !editando && (
-        <View className="mb-3 mx-16 p-4">
-            <Button textSize="text-xl" colorBg="bg-black" colorText="text-white" text="Escanear y guardar un producto" onPress={() => setScanning(true)} />
+        <View className="mb-3 mx-16 p-2 flex-row items-center rounded-md justify-center bg-black ">
+            <Ionicons name="qr-code-sharp" size={35} color={"white"}/>
+            <Button textSize="text-2xl" colorBg="bg-black" colorText="text-white" text="Escanear producto" onPress={() => setScanning(true)} />
         </View>
         )}
         <TabBar />
