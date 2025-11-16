@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from "react-native";
 
 type TextSize = "text-sm" | "text-md" | "text-lg" | "text-xl" | "text-2xl";
 type Color = "text-blue-300" | "text-white" | "text-red-300" | "text-black" | "text-yellow-500" | "text-green-300" | "text-gray-800";
-type ColorBg = "bg-blue-300" | "bg-white" | "bg-red-300" | "bg-black" | "bg-yellow-300" | "bg-green-300" | "bg-gray-800" | "bg-teal-400"; 
+type ColorBg = "bg-blue-300" | "bg-white" | "bg-red-300" | "bg-black" | "bg-yellow-300" | "bg-green-300" | "bg-gray-800" | "bg-gray-300" | "bg-teal-400"; 
 type Font = "font-bold" | "font-semibold" | "font-light";
 
 interface ButtonProps {
@@ -13,6 +13,7 @@ interface ButtonProps {
   colorText?: Color;
   font?: Font;
   onPress?: () => void;
+  disabled?: boolean;
 }
 
 export default function Button({
@@ -22,11 +23,13 @@ export default function Button({
   colorText = "text-black", 
   font = "font-bold",       
   onPress,
+  disabled = false,
 }: ButtonProps) {
   return (
     <TouchableOpacity
-      className={`${colorBg} px-4 py-4 rounded-xl items-center`}
+      className={`${colorBg} px-4 py-4 rounded-xl items-center ${disabled ? 'opacity-50' : ''}`}
       onPress={onPress}
+      disabled={disabled}
     >
       <Text className={`${colorText} ${font} ${textSize}`}>
         {text}

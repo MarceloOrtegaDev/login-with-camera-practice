@@ -1,7 +1,7 @@
-import { View } from "react-native";
-import React from "react";
-import Button from "./Button";
 import { useRouter } from "expo-router";
+import React from "react";
+import { View } from "react-native";
+import Button from "./Button";
 
 export default function TabBar() {
     const router = useRouter()
@@ -16,12 +16,12 @@ export default function TabBar() {
         onPress={() => router.push("/home")}
         />
         <Button
-          text="Mis productos"
+          text="Mis Notas"
           textSize="text-xl"
           colorBg="bg-teal-400"
           colorText="text-white"
           font="font-bold"
-          onPress={() => router.push("/productos")}
+          onPress={() => router.push("/notas" as any)}
           />
     </View>
   );
